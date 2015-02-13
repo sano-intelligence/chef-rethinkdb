@@ -19,7 +19,7 @@
 #
 
 
-rethinkdb_servers = search(:node, "role:rethinkdb")
+rethinkdb_servers = [] #search(:node, "role:rethinkdb")
 servers_ips = []
 rethinkdb_servers.each do |server|
   if server.has_key?("rethinkdb")
