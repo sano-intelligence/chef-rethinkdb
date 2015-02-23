@@ -20,6 +20,7 @@
 
 case node['platform_family']
   when 'debian'
+    packages = %w{ rethinkdb } 
     bash 'install rethinkdb deb package' do
       code <<-EOF
 source /etc/lsb-release && echo "deb http://download.rethinkdb.com/apt $DISTRIB_CODENAME main" | sudo tee -a /etc/apt/sources.list
