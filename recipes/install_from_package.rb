@@ -19,19 +19,15 @@
 #
 
 case node['platform_family']
-  when 'debian'    
-    repo = 'http://ppa.launchpad.net/rethinkdb/ppa/ubuntu'
-    packages = %w{ rethinkdb }  
-  
-    apt_repository 'rethinkdb' do
-      uri repo
-      distribution node['lsb']['codename']
-      components ['main']
-      keyserver "keyserver.ubuntu.com"
-      key "11D62AD6"
-      action :add    
+  when 'debian'
+    bash 'install rethinkdb deb package' do
+      code <<-EOF
+source /etc/lsb-release && echo "deb http://download.rethinkdb.com/apt $DISTRIB_CODENAME main" | sudo tee /etc/apt/sources.list.d/rethinkdb.list
+wget -qO- http://download.rethinkdb.com/apt/pubkey.gpg | sudo apt-key add -
+sudo apt-get update
+      EOF
     end
-      
+
   else
     Chef::Log.error "There are no rethinkdb packages for this platform; please use the source or binary method to install node"
     return
